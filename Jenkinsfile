@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image..."
-                    def dockerImage = docker.build("${DOCKER_USERNAME}/another-app:${env.BUILD_NUMBER}") // Build the Docker image
+                    def dockerImage = docker.build("${DOCKER_USERNAME}/demo-app:${env.BUILD_NUMBER}") // Build the Docker image
                 }
             }
         }
@@ -55,8 +55,8 @@ pipeline {
                 script {
                     echo "Pushing Docker image to Docker Hub..."
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS_ID) {
-                        docker.image("${DOCKER_USERNAME}/another-app:${env.BUILD_NUMBER}").push() // Push the image to Docker Hub
-                        docker.image("${DOCKER_USERNAME}/another-app:${env.BUILD_NUMBER}").push("latest") // Optionally push as latest
+                        docker.image("${DOCKER_USERNAME}/demo-app:${env.BUILD_NUMBER}").push() // Push the image to Docker Hub
+                        docker.image("${DOCKER_USERNAME}/demo-app:${env.BUILD_NUMBER}").push("latest") // Optionally push as latest
                     }
                 }
             }
@@ -88,16 +88,9 @@ pipeline {
     post {
         always {
             script {
-                echo "Tearing down services..."
-                if (fileExists('microservices-deployment/docker-compose.yml')) { // Check if docker-compose.yml exists
-                    dir('microservices-deployment') { // Change to the correct directory
-                        sh 'docker-compose down' // Stop and remove containers defined in the Compose file
-                    }
-                } else {
-                    echo "Warning: docker-compose.yml not found in 'microservices-deployment'. Skipping teardown."
-                }
+                echo "Skipping teardown of services." // Optional message indicating teardown is skipped.
             }
         }
-    } // End of post actions
+    } // End of post actions (no teardown logic)
 
 } // End of pipeline
