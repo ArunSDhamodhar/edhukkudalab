@@ -17,7 +17,7 @@ public class DemoApplication {
 
     // This method can remain as is, but it's better to annotate it if it's intended for HTTP access
     public String getMessage() {
-        return "Hello, CI/CD Pipeline!";
+        return "Hello, CI/CD Pipeline2222!";
     }
 
     public static void main(String[] args) {
